@@ -1,0 +1,34 @@
+import { generatePlacementDataset } from '../src/engine/dataGenerator';
+import { SchedulingEngine } from '../src/engine/scheduler';
+import { validateSchedule } from '../src/engine/validator';
+import { calculateMetrics } from '../src/engine/metricsEngine';
+
+const dataset = generatePlacementDataset(42);
+const engine = new SchedulingEngine();
+const t0 = performance.now();
+const result = engine.generateSchedule(dataset);
+const t1 = performance.now();
+const validation = validateSchedule(result.interviews, dataset);
+const metrics = calculateMetrics(result.interviews, dataset);
+
+console.log('--- PLACEMENT SCHEDULER QUALITY AUDIT ---');
+console.log('Seed:', dataset.seed);
+console.log('Total Students:', dataset.students.length);
+console.log('Total Companies:', dataset.companies.length);
+console.log('Total Rooms:', dataset.rooms.length);
+console.log('Total Timeslots per Room:', dataset.timeslots.length);
+console.log('Total Room-Slot Capacity:', metrics.totalCapacitySlots);
+console.log('Total Shortlists:', metrics.totalShortlists);
+console.log('Scheduled Interviews:', metrics.totalScheduledInterviews);
+console.log('Unscheduled Interviews:', metrics.totalUnscheduledInterviews);
+console.log('Scheduling Success Rate:', metrics.schedulingSuccessRate + '%');
+console.log('Room Utilization Rate:', metrics.roomUtilizationRate + '%');
+console.log('Student Clashes:', metrics.studentClashes);
+console.log('Room Conflicts:', metrics.roomConflicts);
+console.log('Panel Conflicts:', metrics.panelConflicts);
+console.log('Average Waiting Time (min):', metrics.averageWaitTimeMinutes);
+console.log('Max Waiting Time (min):', metrics.maxWaitTimeMinutes);
+console.log('Execution Time (ms):', Math.round(t1 - t0));
+console.log('Validation IsValid:', validation.isValid);
+console.log('Validation Critical Issues:', validation.criticalIssuesCount);
+console.log('Validation Warnings:', validation.warningsCount);

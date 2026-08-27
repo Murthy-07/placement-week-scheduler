@@ -1,0 +1,6 @@
+{
+  "name": "Placement Week Scheduler",
+  "description": "Enterprise Placement Week scheduling engine and coordinator dashboard with real-time multi-resource conflict resolution, dynamic replanning, and disruption management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
